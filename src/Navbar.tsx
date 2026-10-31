@@ -1,21 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 export default function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement> | null, id: string) => {
+    if (e) e.preventDefault();
+    setMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <header style={styles.header}>
       <div style={styles.container}>
         {/* Logo Section */}
-        <div style={styles.logoGroup}>
+        <div 
+          style={styles.logoGroup} 
+          onClick={() => scrollToSection(null, 'home')}
+        >
           <svg
-            width="38"
-            height="38"
+            width="34"
+            height="34"
             viewBox="0 0 40 40"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {/* Top Layer */}
             <path d="M20 4L34 11L20 18L6 11L20 4Z" fill="#93C5FD" />
-            {/* Middle Layer */}
             <path
               d="M6 16.5L20 23.5L34 16.5M6 16.5L20 23.5V28"
               stroke="#3B82F6"
@@ -24,7 +37,6 @@ export default function Navbar() {
               strokeLinejoin="round"
             />
             <path d="M6 16.5L20 23.5L34 16.5" fill="#60A5FA" />
-            {/* Bottom Base */}
             <path
               d="M6 23.5L20 30.5L34 23.5V29L20 36L6 29V23.5Z"
               fill="#2563EB"
@@ -33,21 +45,55 @@ export default function Navbar() {
           <span style={styles.brandName}>SmartEdufy</span>
         </div>
 
-        {/* Center Links */}
+        {/* Desktop Nav Links */}
         <nav style={styles.navMenu}>
-          <a href="#home" style={styles.link}>Home</a>
-          <a href="#features" style={styles.link}>Features</a>
-          <a href="#about" style={styles.link}>About</a>
-          <a href="#pricing" style={styles.link}>Pricing</a>
-          <a href="#faq" style={styles.link}>FAQ</a>
+          <a href="#home" onClick={(e) => scrollToSection(e, 'home')} style={styles.link}>Home</a>
+          <a href="#features" onClick={(e) => scrollToSection(e, 'features')} style={styles.link}>Features</a>
+          <a href="#workflow" onClick={(e) => scrollToSection(e, 'workflow')} style={styles.link}>About</a>
+          <a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} style={styles.link}>Pricing</a>
+          <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} style={styles.link}>FAQ</a>
         </nav>
 
-        {/* Right Auth Group */}
+        {/* Desktop Auth Group */}
         <div style={styles.authGroup}>
           <a href="#login" style={styles.loginLink}>Login</a>
-          <button style={styles.signupBtn}>Sign up for free</button>
+          <button 
+            style={styles.signupBtn} 
+            onClick={() => scrollToSection(null, 'pricing')}
+          >
+            Sign up for free
+          </button>
         </div>
+
+        {/* Mobile Hamburger Toggle Button */}
+        <button 
+          style={styles.mobileMenuBtn} 
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle Navigation Menu"
+        >
+          {mobileMenuOpen ? <X size={24} color="#1E293B" /> : <Menu size={24} color="#1E293B" />}
+        </button>
       </div>
+
+      {/* Mobile Dropdown Menu */}
+      {mobileMenuOpen && (
+        <div style={styles.mobileDropdown}>
+          <a href="#home" onClick={(e) => scrollToSection(e, 'home')} style={styles.mobileLink}>Home</a>
+          <a href="#features" onClick={(e) => scrollToSection(e, 'features')} style={styles.mobileLink}>Features</a>
+          <a href="#workflow" onClick={(e) => scrollToSection(e, 'workflow')} style={styles.mobileLink}>About</a>
+          <a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} style={styles.mobileLink}>Pricing</a>
+          <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} style={styles.mobileLink}>FAQ</a>
+          <div style={styles.mobileAuthGroup}>
+            <a href="#login" style={styles.mobileLoginLink}>Login</a>
+            <button 
+              style={styles.mobileSignupBtn} 
+              onClick={() => scrollToSection(null, 'pricing')}
+            >
+              Sign up for free
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -55,13 +101,16 @@ export default function Navbar() {
 const styles: { [key: string]: React.CSSProperties } = {
   header: {
     width: '100%',
-    backgroundColor: '#FAF5FF', // Matches the exact top ambient tint
-    borderBottom: 'none',       // Removes any unwanted separator line
+    backgroundColor: '#FAF5FF',
+    position: 'sticky',
+    top: 0,
+    zIndex: 1000,
+    borderBottom: '1px solid rgba(226, 232, 240, 0.6)',
   },
   container: {
     maxWidth: '1280px',
     margin: '0 auto',
-    padding: '20px 32px',
+    padding: '16px 24px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -69,50 +118,114 @@ const styles: { [key: string]: React.CSSProperties } = {
   logoGroup: {
     display: 'flex',
     alignItems: 'center',
-    gap: '12px',
+    gap: '10px',
     cursor: 'pointer',
   },
   brandName: {
-    fontSize: '22px',
+    fontSize: '20px',
     fontWeight: 700,
     color: '#1E293B',
-    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+    fontFamily: 'Inter, system-ui, sans-serif',
     letterSpacing: '-0.3px',
   },
   navMenu: {
     display: 'flex',
     alignItems: 'center',
-    gap: '36px',
+    gap: '32px',
   },
   link: {
-    fontSize: '15px',
+    fontSize: '14.5px',
     fontWeight: 500,
     color: '#475569',
     textDecoration: 'none',
-    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+    fontFamily: 'Inter, system-ui, sans-serif',
+    cursor: 'pointer',
   },
   authGroup: {
     display: 'flex',
     alignItems: 'center',
-    gap: '28px',
+    gap: '24px',
   },
   loginLink: {
-    fontSize: '15px',
+    fontSize: '14.5px',
     fontWeight: 500,
     color: '#334155',
     textDecoration: 'none',
-    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+    fontFamily: 'Inter, system-ui, sans-serif',
   },
   signupBtn: {
     backgroundColor: '#2563EB',
     color: '#FFFFFF',
     border: 'none',
-    padding: '10px 24px',
+    padding: '10px 22px',
     borderRadius: '50px',
-    fontSize: '14px',
+    fontSize: '13.5px',
     fontWeight: 600,
     cursor: 'pointer',
-    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+    fontFamily: 'Inter, system-ui, sans-serif',
     boxShadow: '0 4px 12px rgba(37, 99, 235, 0.2)',
   },
+  mobileMenuBtn: {
+    display: 'none',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    padding: '4px',
+  },
+  mobileDropdown: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+    padding: '24px',
+    backgroundColor: '#FAF5FF',
+    borderBottom: '1px solid #E2E8F0',
+    boxShadow: '0 10px 20px rgba(0,0,0,0.05)',
+  },
+  mobileLink: {
+    fontSize: '16px',
+    fontWeight: 600,
+    color: '#334155',
+    textDecoration: 'none',
+  },
+  mobileAuthGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+    paddingTop: '12px',
+    borderTop: '1px solid #E2E8F0',
+  },
+  mobileLoginLink: {
+    fontSize: '15px',
+    fontWeight: 600,
+    color: '#334155',
+    textDecoration: 'none',
+    textAlign: 'center',
+    padding: '8px 0',
+  },
+  mobileSignupBtn: {
+    backgroundColor: '#2563EB',
+    color: '#FFFFFF',
+    border: 'none',
+    padding: '12px',
+    borderRadius: '12px',
+    fontSize: '15px',
+    fontWeight: 700,
+    cursor: 'pointer',
+    width: '100%',
+  },
 };
+
+if (typeof document !== 'undefined') {
+  const styleTag = document.createElement('style');
+  styleTag.innerHTML = `
+    @media (max-width: 900px) {
+      header nav, header div > div:nth-child(3) { display: none !important; }
+      button[aria-label="Toggle Navigation Menu"] { display: flex !important; }
+    }
+    @media (min-width: 901px) {
+      div[style*="mobileDropdown"] { display: none !important; }
+      button[aria-label="Toggle Navigation Menu"] { display: none !important; }
+    }
+  `;
+  document.head.appendChild(styleTag);
+}
