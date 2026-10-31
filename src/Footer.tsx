@@ -14,7 +14,10 @@ export default function Footer() {
         
         {/* Left: Logo & Tagline */}
         <div style={styles.leftGroup}>
-          <div style={styles.logoRow} onClick={() => scrollToSection('home')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div 
+            onClick={() => scrollToSection('home')} 
+            style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px' }}
+          >
             <svg width="28" height="24" viewBox="0 0 32 28" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#3B82F6" stroke="#2563EB" strokeWidth="1.5" strokeLinejoin="round"/>
               <path d="M2 15L16 22L30 15" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -131,7 +134,6 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
 };
 
-// Responsive media query styling injection for footer stack layout on mobile devices
 if (typeof document !== 'undefined') {
   const footerStyleTag = document.createElement('style');
   footerStyleTag.innerHTML = `
