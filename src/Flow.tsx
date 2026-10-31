@@ -4,8 +4,8 @@ import {
   Users, BookOpen, BarChart3, Folder, UserRound,
   Home, Menu, CalendarDays, GraduationCap,
   ClipboardList, TrendingUp, ChevronRight,
-  ChevronLeft, MoreHorizontal, CheckCircle2,
-  Sparkles, FileText, School, MessageCircle, RefreshCw, Square, BellRing
+  ChevronLeft, MoreHorizontal,
+  Sparkles, School, MessageCircle, RefreshCw, Square, BellRing
 } from "lucide-react";
 
 const C = {
@@ -115,7 +115,6 @@ function BrowserBar() {
 
 function Phone({
   children,
-  variant
 }: {
   children: React.ReactNode;
   variant: string;
