@@ -1,178 +1,163 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
-interface FAQItem {
+interface FaqItem {
+  id: number;
   question: string;
   answer: string;
 }
 
-const faqData: FAQItem[] = [
+const faqs: FaqItem[] = [
   {
+    id: 1,
     question: "Is SmartEdufy cloud-based?",
-    answer: "Yes, SmartEdufy is 100% cloud-based. You can access your school's dashboard from any internet-connected device without installing software or managing local servers."
+    answer: "Yes, SmartEdufy is 100% cloud-based. You can access your school's administrative portal, records, and tools securely from any browser without needing local server setups or complex installations."
   },
   {
+    id: 2,
     question: "Can I use SmartEdufy on mobile?",
-    answer: "Absolutely! SmartEdufy is fully optimized for mobile devices, tablets, and desktop computers with dedicated mobile interfaces for Admins, Teachers, and Parents."
+    answer: "Absolutely! SmartEdufy is fully mobile-optimized for smartphones and tablets, ensuring administrators, teachers, and parents can easily manage tasks and receive updates on the go."
   },
   {
+    id: 3,
     question: "How secure is my school's data?",
-    answer: "We use bank-grade SSL encryption for all data in transit and at rest. Automated daily backups ensure your student, financial, and academic records remain safe and recoverable."
+    answer: "We use bank-grade encryption both in transit and at rest. Your student records, financial information, and administrative data are isolated and regularly backed up on secure enterprise cloud infrastructure."
   },
   {
+    id: 4,
     question: "Can we import existing school data?",
-    answer: "Yes! You can easily bulk import student profiles, teacher lists, subjects, and past records using CSV or Excel spreadsheets through our seamless migration tool."
+    answer: "Yes. Our onboarding team provides easy spreadsheet templates (CSV/Excel) to seamlessly import student rosters, staff accounts, class lists, and historical academic records."
   },
   {
+    id: 5,
     question: "How does pricing work?",
-    answer: "Our pricing is transparent, predictable, and charged on a per-term basis according to your student enrollment. There are zero hidden setup fees or long-term contracts."
+    answer: "Our pricing is transparent and calculated termly based on student enrollment. There are zero hidden setup fees or unexpected maintenance costs."
   },
   {
+    id: 6,
     question: "When will AI features become available?",
-    answer: "Core AI capabilities—such as automated result insights, personalized learning path recommendations, and smart report card summaries—are rolling out in upcoming term updates."
+    answer: "Core management features are ready today. AI insights, automated report compilation, and personalized student analytics are actively rolling out across our planned platform updates."
   }
 ];
 
-export default function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+export default function FaqSection() {
+  const [openId, setOpenId] = useState<number | null>(null);
 
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
+  const toggleFaq = (id: number) => {
+    setOpenId(prev => (prev === id ? null : id));
   };
 
   return (
-    <section style={styles.section}>
-      <div style={styles.container}>
-        {/* Header */}
-        <div style={styles.header}>
-          <h2 style={styles.title}>Frequently Asked Questions</h2>
-          <p style={styles.subtitle}>
+    <section 
+      id="faq"
+      style={{
+        width: "100%",
+        // Solid light lavender background matching the reference image (no gradient)
+        backgroundColor: "#F6F1FF",
+        padding: "100px 24px 120px 24px",
+        fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+        boxSizing: "border-box",
+        borderTop: "1px solid rgba(226, 232, 240, 0.8)",
+      }}
+    >
+      <div style={{ maxWidth: 960, width: "100%", margin: "0 auto", textAlign: "center", boxSizing: "border-box" }}>
+        
+        {/* SECTION HEADER */}
+        <div style={{ marginBottom: "52px" }}>
+          <h2 style={{
+            fontSize: "clamp(32px, 4vw, 44px)",
+            fontWeight: 800,
+            color: "#0F172A",
+            letterSpacing: "-1.2px",
+            margin: "0 0 14px 0",
+            lineHeight: 1.15,
+          }}>
+            Frequently Asked Questions
+          </h2>
+
+          <p style={{
+            fontSize: "16px",
+            lineHeight: 1.6,
+            color: "#64748B",
+            margin: 0,
+          }}>
             Everything you need to know about getting started with SmartEdufy.
           </p>
         </div>
 
-        {/* FAQ Accordion List */}
-        <div style={styles.faqList}>
-          {faqData.map((item, index) => {
-            const isOpen = openIndex === index;
+        {/* FAQ ACCORDION CARDS CONTAINER */}
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+          textAlign: "left",
+          width: "100%",
+        }}>
+          {faqs.map((faq) => {
+            const isOpen = openId === faq.id;
+
             return (
-              <div 
-                key={index} 
+              <div
+                key={faq.id}
+                onClick={() => toggleFaq(faq.id)}
                 style={{
-                  ...styles.faqCard,
-                  ...(isOpen ? styles.faqCardOpen : {})
+                  backgroundColor: "#FFFFFF",
+                  borderRadius: "20px",
+                  padding: "22px 32px",
+                  boxShadow: "0 8px 20px -6px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02)",
+                  border: "1px solid rgba(255, 255, 255, 0.9)",
+                  cursor: "pointer",
+                  transition: "all 0.25s ease",
+                  width: "100%",
+                  boxSizing: "border-box",
                 }}
               >
-                <button 
-                  onClick={() => toggleFAQ(index)} 
-                  style={styles.faqHeaderBtn}
-                  aria-expanded={isOpen}
-                >
-                  <span style={styles.questionText}>{item.question}</span>
-                  <div style={{
-                    ...styles.chevronWrapper,
-                    transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+                {/* Question Header Row */}
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "16px",
+                }}>
+                  <span style={{
+                    fontSize: "17px",
+                    fontWeight: 700,
+                    color: "#0F172A",
+                    letterSpacing: "-0.2px",
                   }}>
-                    <ChevronDown size={18} color="#475569" strokeWidth={2.2} />
-                  </div>
-                </button>
+                    {faq.question}
+                  </span>
 
+                  <ChevronDown
+                    size={20}
+                    color="#64748B"
+                    style={{
+                      transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                      transition: "transform 0.25s ease",
+                      flexShrink: 0,
+                    }}
+                  />
+                </div>
+
+                {/* Collapsible Answer Content */}
                 {isOpen && (
-                  <div style={styles.answerWrapper}>
-                    <p style={styles.answerText}>{item.answer}</p>
+                  <div style={{
+                    marginTop: "14px",
+                    paddingTop: "12px",
+                    borderTop: "1px solid #F1F5F9",
+                    fontSize: "15px",
+                    lineHeight: 1.65,
+                    color: "#475569",
+                  }}>
+                    {faq.answer}
                   </div>
                 )}
               </div>
             );
           })}
         </div>
+
       </div>
     </section>
   );
 }
-
-const styles: { [key: string]: React.CSSProperties } = {
-  section: {
-    width: '100%',
-    backgroundColor: '#F3E8FF', // Matching soft purple tint backdrop
-    padding: '90px 24px 110px 24px',
-    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-    boxSizing: 'border-box',
-  },
-  container: {
-    maxWidth: '760px',
-    margin: '0 auto',
-  },
-  header: {
-    textAlign: 'center',
-    marginBottom: '48px',
-  },
-  title: {
-    fontSize: 'clamp(28px, 3.5vw, 38px)',
-    fontWeight: 800,
-    color: '#0F172A',
-    letterSpacing: '-1px',
-    marginBottom: '12px',
-    margin: 0,
-  },
-  subtitle: {
-    fontSize: '15px',
-    color: '#64748B',
-    lineHeight: 1.6,
-    margin: '12px 0 0 0',
-  },
-  faqList: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '16px',
-  },
-  faqCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: '18px',
-    border: '1px solid rgba(255, 255, 255, 0.8)',
-    // Multi-layered soft drop shadow under the cards matching image 2
-    boxShadow: '0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04)',
-    overflow: 'hidden',
-    transition: 'all 0.25s ease',
-  },
-  faqCardOpen: {
-    boxShadow: '0 15px 30px -5px rgba(37, 99, 235, 0.12), 0 6px 12px -2px rgba(37, 99, 235, 0.06)',
-    border: '1px solid #DBEAFE',
-  },
-  faqHeaderBtn: {
-    width: '100%',
-    padding: '18px 24px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    textAlign: 'left',
-    outline: 'none',
-  },
-  questionText: {
-    fontSize: '15.5px',
-    fontWeight: 700,
-    color: '#0F172A',
-    letterSpacing: '-0.2px',
-  },
-  chevronWrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-    flexShrink: 0,
-    marginLeft: '16px',
-  },
-  answerWrapper: {
-    padding: '0 24px 22px 24px',
-    borderTop: '1px solid #F1F5F9',
-  },
-  answerText: {
-    fontSize: '14px',
-    lineHeight: 1.6,
-    color: '#475569',
-    margin: '14px 0 0 0',
-  },
-};

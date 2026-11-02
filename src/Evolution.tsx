@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Building2, TrendingUp, Sparkles, Check, Network, Rocket, ArrowRight } from 'lucide-react';
 
 const C = {
@@ -10,6 +10,9 @@ const C = {
 };
 
 export default function StrategicEvolution() {
+  // State to track which card is currently hovered (by index)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
   return (
     <section style={{
       width: "100%",
@@ -68,15 +71,19 @@ export default function StrategicEvolution() {
         }}>
           {/* Step 1 */}
           <div style={{
-            background: C.white,
+            background: 'rgba(255, 255, 255, 0.20)',
             border: `1px solid ${C.border}`,
             borderRadius: 16,
             padding: "20px 24px",
             display: "flex",
             alignItems: "center",
             gap: 14,
-            boxShadow: "0 4px 12px rgba(15,23,42,0.03)",
             minWidth: 220,
+            transition: "transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease",
+            transform: "translateY(-3px)",
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+            boxShadow: "0 8px 18px rgba(15, 23, 42, 0.13), 0 2px 5px rgba(15, 23, 42, 0.08)"
           }}>
             <div style={{
               width: 38, height: 38, borderRadius: 10, background: "#eff6ff",
@@ -94,15 +101,19 @@ export default function StrategicEvolution() {
 
           {/* Step 2 */}
           <div style={{
-            background: C.white,
+            background: 'rgba(255, 255, 255, 0.20)',
             border: `1px solid ${C.border}`,
             borderRadius: 16,
             padding: "20px 24px",
             display: "flex",
             alignItems: "center",
             gap: 14,
-            boxShadow: "0 4px 12px rgba(15,23,42,0.03)",
             minWidth: 220,
+            transition: "transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease",
+            transform: "translateY(-3px)",
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+            boxShadow: "0 8px 18px rgba(15, 23, 42, 0.13), 0 2px 5px rgba(15, 23, 42, 0.08)"
           }}>
             <div style={{
               width: 38, height: 38, borderRadius: 10, background: "#eff6ff",
@@ -121,14 +132,18 @@ export default function StrategicEvolution() {
           {/* Step 3 (Highlighted) */}
           <div style={{
             background: "#dbeafe",
-            border: "1px solid #bfdbfe",
+            border: `1px solid ${C.border}`,
             borderRadius: 16,
             padding: "20px 24px",
             display: "flex",
             alignItems: "center",
             gap: 14,
-            boxShadow: "0 4px 12px rgba(37,99,235,0.08)",
             minWidth: 220,
+            transition: "transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease",
+            transform: "translateY(-3px)",
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+            boxShadow: "0 8px 18px rgba(15, 23, 42, 0.13), 0 2px 5px rgba(15, 23, 42, 0.08)"
           }}>
             <div style={{
               width: 38, height: 38, borderRadius: 10, background: "#ffffff",
@@ -143,14 +158,13 @@ export default function StrategicEvolution() {
           </div>
         </div>
 
-
-        {/* --- BOTTOM SECTION: WHY SMARTEDUFY (With Clear Header & Spacing) --- */}
+        {/* --- BOTTOM SECTION: WHY SMARTEDUFY --- */}
         <div style={{ 
           textAlign: "center", 
           maxWidth: 640, 
           margin: "0 auto 50px auto",
           paddingTop: "40px",
-          borderTop: "1px solid rgba(196, 181, 253, 0.4)" // Soft separator line break
+          borderTop: "1px solid rgba(196, 181, 253, 0.4)"
         }}>
           <h2 style={{
             fontSize: "clamp(28px, 3.5vw, 38px)",
@@ -178,7 +192,11 @@ export default function StrategicEvolution() {
           gap: 24,
         }}>
           {/* Card 1: Simple */}
-          <div style={cardStyle}>
+          <div 
+            style={getCardStyle(hoveredIndex === 0)}
+            onMouseEnter={() => setHoveredIndex(0)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
             <div style={iconBoxStyle}>
               <Check size={20} strokeWidth={2.8} color="#2563eb" />
             </div>
@@ -189,7 +207,11 @@ export default function StrategicEvolution() {
           </div>
 
           {/* Card 2: Connected */}
-          <div style={cardStyle}>
+          <div 
+            style={getCardStyle(hoveredIndex === 1)}
+            onMouseEnter={() => setHoveredIndex(1)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
             <div style={iconBoxStyle}>
               <Network size={20} strokeWidth={2.2} color="#2563eb" />
             </div>
@@ -200,7 +222,11 @@ export default function StrategicEvolution() {
           </div>
 
           {/* Card 3: Future-Ready */}
-          <div style={cardStyle}>
+          <div 
+            style={getCardStyle(hoveredIndex === 2)}
+            onMouseEnter={() => setHoveredIndex(2)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
             <div style={iconBoxStyle}>
               <Rocket size={20} strokeWidth={2.2} color="#2563eb" />
             </div>
@@ -216,18 +242,24 @@ export default function StrategicEvolution() {
   );
 }
 
-const cardStyle: React.CSSProperties = {
-  backgroundColor: "rgba(255, 255, 255, 0.45)",
+// Dynamic helper function that applies hover styling to the entire card
+const getCardStyle = (isHovered: boolean): React.CSSProperties => ({
+  backgroundColor: isHovered ? "rgba(255, 255, 255, 0.78)" : "rgba(255, 255, 255, 0.45)",
   backdropFilter: "blur(16px)",
   WebkitBackdropFilter: "blur(16px)",
   border: "1px solid rgba(255, 255, 255, 0.8)",
   borderRadius: "28px",
   padding: "36px 32px 40px",
-  boxShadow: "0 10px 30px -10px rgba(37, 99, 235, 0.06)",
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
-};
+  cursor: "pointer",
+  transform: isHovered ? "translateY(-3px)" : "translateY(0px)",
+  transition: "transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease",
+  boxShadow: isHovered
+    ? "0 18px 35px -10px rgba(37, 99, 235, 0.15), 0 8px 18px rgba(15, 23, 42, 0.13), 0 2px 5px rgba(15, 23, 42, 0.08)"
+    : "0 10px 30px -10px rgba(37, 99, 235, 0.06)",
+});
 
 const iconBoxStyle: React.CSSProperties = {
   width: "44px",
@@ -238,7 +270,11 @@ const iconBoxStyle: React.CSSProperties = {
   display: "grid",
   placeItems: "center",
   marginBottom: "32px",
-  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 1)",
+  boxShadow: `
+      0 3px 5px rgba(15, 23, 42, 0.20),
+      0 1px 2px rgba(15, 23, 42, 0.12),
+      inset 0 1px 2px rgba(255, 255, 255, 0.75)
+    `,
 };
 
 const titleStyle: React.CSSProperties = {

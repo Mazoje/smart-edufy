@@ -27,14 +27,17 @@ export default function PricingVideoSection() {
   return (
     <section style={{
       width: "100%",
-      backgroundColor: "#EEF2FF", // Soft distinct blue/lavender background tint
-      padding: "100px 24px 120px 24px",
+      // Richer lavender-to-pink gradient background
+      background: "linear-gradient(180deg,  #E0E7FF 0%, #F3E8FF 45%, #F3E8FF 100%)",
+      padding: "110px 24px 130px 24px",
       fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
       boxSizing: "border-box",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      borderTop: "1px solid rgba(203, 213, 225, 0.4)", // Distinct top boundary line
+      // Distinct section break line at the top
+      borderTop: "2px  rgba(170, 95, 245, 0.4)", 
+      marginTop: "3px",
     }}>
       <div style={{ maxWidth: 1200, width: "100%", margin: "0 auto", textAlign: "center" }}>
         
