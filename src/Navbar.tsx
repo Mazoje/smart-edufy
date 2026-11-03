@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
-export default function Navbar() {
+interface NavbarProps {
+  setCurrentPage: (page: string) => void;
+}
+
+export default function Navbar({ setCurrentPage }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement> | null, id: string) => {
-    if (e) e.preventDefault();
+  const handleNavClick = (page: string) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -19,45 +20,50 @@ export default function Navbar() {
         {/* Logo Section */}
         <div 
           style={styles.logoGroup} 
-          onClick={() => scrollToSection(null, 'home')}
+          onClick={() => handleNavClick('home')}
         >
-          <svg
-            width="34"
-            height="34"
-            viewBox="0 0 40 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M20 4L34 11L20 18L6 11L20 4Z" fill="#93C5FD" />
-            <path
-              d="M6 16.5L20 23.5L34 16.5M6 16.5L20 23.5V28"
-              stroke="#3B82F6"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path d="M6 16.5L20 23.5L34 16.5" fill="#60A5FA" />
-            <path
-              d="M6 23.5L20 30.5L34 23.5V29L20 36L6 29V23.5Z"
-              fill="#2563EB"
-            />
-          </svg>
-          <span style={styles.brandName}>SmartEdufy</span>
+          <img 
+            src="/logo1.png" 
+            alt="SmartEdufy Logo" 
+            style={styles.logoImage}
+            onError={(e) => {
+              (e.target as HTMLElement).style.display = 'none';
+            }}
+          />
+         
         </div>
 
         {/* Desktop Nav Links */}
         <nav style={styles.navMenu}>
-          <a href="#home" onClick={(e) => scrollToSection(e, 'home')} style={styles.link}>Home</a>
-          <a href="#workflow" onClick={(e) => scrollToSection(e, 'workflow')} style={styles.link}>About</a>
-          <a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} style={styles.link}>Pricing</a>
-           </nav>
+          <a 
+            href="#home" 
+            onClick={(e) => { e.preventDefault(); handleNavClick('home'); }} 
+            style={styles.link}
+          >
+            Home
+          </a>
+          <a 
+            href="#about" 
+            onClick={(e) => { e.preventDefault(); handleNavClick('about'); }} 
+            style={styles.link}
+          >
+            About
+          </a>
+          <a 
+            href="#pricing" 
+            onClick={(e) => { e.preventDefault(); handleNavClick('pricing'); }} 
+            style={styles.link}
+          >
+            Pricing
+          </a>
+        </nav>
 
         {/* Desktop Auth Group */}
         <div style={styles.authGroup}>
           <a href="#login" style={styles.loginLink}>Login</a>
           <button 
             style={styles.signupBtn} 
-            onClick={() => scrollToSection(null, 'pricing')}
+            onClick={() => handleNavClick('pricing')}
           >
             Sign up for free
           </button>
@@ -76,16 +82,32 @@ export default function Navbar() {
       {/* Mobile Dropdown Menu */}
       {mobileMenuOpen && (
         <div style={styles.mobileDropdown}>
-          <a href="#home" onClick={(e) => scrollToSection(e, 'home')} style={styles.mobileLink}>Home</a>
-          <a href="#features" onClick={(e) => scrollToSection(e, 'features')} style={styles.mobileLink}>Features</a>
-          <a href="#workflow" onClick={(e) => scrollToSection(e, 'workflow')} style={styles.mobileLink}>About</a>
-          <a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} style={styles.mobileLink}>Pricing</a>
-          <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} style={styles.mobileLink}>FAQ</a>
+          <a 
+            href="#home" 
+            onClick={(e) => { e.preventDefault(); handleNavClick('home'); }} 
+            style={styles.mobileLink}
+          >
+            Home
+          </a>
+          <a 
+            href="#about" 
+            onClick={(e) => { e.preventDefault(); handleNavClick('about'); }} 
+            style={styles.mobileLink}
+          >
+            About
+          </a>
+          <a 
+            href="#pricing" 
+            onClick={(e) => { e.preventDefault(); handleNavClick('pricing'); }} 
+            style={styles.mobileLink}
+          >
+            Pricing
+          </a>
           <div style={styles.mobileAuthGroup}>
             <a href="#login" style={styles.mobileLoginLink}>Login</a>
             <button 
               style={styles.mobileSignupBtn} 
-              onClick={() => scrollToSection(null, 'pricing')}
+              onClick={() => handleNavClick('pricing')}
             >
               Sign up for free
             </button>
@@ -118,6 +140,11 @@ const styles: { [key: string]: React.CSSProperties } = {
     alignItems: 'center',
     gap: '10px',
     cursor: 'pointer',
+  },
+  logoImage: {
+    height: '34px',
+    width: 'auto',
+    objectFit: 'contain',
   },
   brandName: {
     fontSize: '20px',
