@@ -48,11 +48,9 @@ export default function Navbar() {
         {/* Desktop Nav Links */}
         <nav style={styles.navMenu}>
           <a href="#home" onClick={(e) => scrollToSection(e, 'home')} style={styles.link}>Home</a>
-          <a href="#features" onClick={(e) => scrollToSection(e, 'features')} style={styles.link}>Features</a>
           <a href="#workflow" onClick={(e) => scrollToSection(e, 'workflow')} style={styles.link}>About</a>
           <a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} style={styles.link}>Pricing</a>
-          <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} style={styles.link}>FAQ</a>
-        </nav>
+           </nav>
 
         {/* Desktop Auth Group */}
         <div style={styles.authGroup}>

@@ -27,16 +27,14 @@ export default function PricingVideoSection() {
   return (
     <section style={{
       width: "100%",
-      // Richer lavender-to-pink gradient background
-      background: "linear-gradient(180deg,  #E0E7FF 0%, #F3E8FF 45%, #F3E8FF 100%)",
+      background: "linear-gradient(180deg, #E0E7FF 0%, #F3E8FF 45%, #F3E8FF 100%)",
       padding: "110px 24px 130px 24px",
       fontFamily: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
       boxSizing: "border-box",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      // Distinct section break line at the top
-      borderTop: "2px  rgba(170, 95, 245, 0.4)", 
+      borderTop: "0.2px  rgba(170, 95, 245, 0.4)", 
       marginTop: "3px",
     }}>
       <div style={{ maxWidth: 1200, width: "100%", margin: "0 auto", textAlign: "center" }}>
@@ -78,131 +76,74 @@ export default function PricingVideoSection() {
           border: "2px solid rgba(255, 255, 255, 0.2)",
           boxSizing: "border-box",
         }}>
-          {/* Inner Dashboard View Screen */}
+          {/* Inner Screen Container */}
           <div style={{
             position: "relative",
             width: "100%",
             aspectRatio: "16 / 10",
-            backgroundColor: "#F8FAFC",
-            borderRadius: "18px",
+            backgroundColor: "#000000",
+            borderRadius: "1px",
             overflow: "hidden",
             display: "flex",
-            flexDirection: "column",
-            textAlign: "left",
+            alignItems: "center",
+            justifyContent: "center",
           }}>
             
-            {/* Top Mockup Header Bar */}
-            <div style={{
-              height: "40px",
-              backgroundColor: "#FFFFFF",
-              borderBottom: "1px solid #E2E8F0",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "0 16px",
-              fontSize: "12px",
-              color: "#64748B",
-              flexShrink: 0,
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <span style={{ fontWeight: 800, color: "#2563EB", fontSize: "13px" }}>SmartEdufy</span>
-                <span style={{ fontSize: "10px", backgroundColor: "#F1F5F9", padding: "2px 6px", borderRadius: "4px", fontWeight: 600 }}>Admin</span>
-              </div>
-              <div style={{ fontWeight: 600, color: "#0F172A", fontSize: "12px" }}>
-                Golden Light School <span style={{ opacity: 0.5, fontWeight: 400 }}>First Term 2026/2027</span>
-              </div>
-              <div style={{ display: "flex", gap: "10px", alignItems: "center", fontSize: "11px" }}>
-                <span>🔍</span>
-                <span>— 80% +</span>
-                <span>🔔</span>
-              </div>
-            </div>
+            {/* Video Thumbnail Image (Shown when video is NOT playing) */}
+            {!isPlaying && (
+              <img 
+                src="/video.jpeg" // <-- Replace with your actual thumbnail filename in the public folder
+                alt="SmartEdufy Video Thumbnail" 
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+                onError={(e) => {
+                  (e.target as HTMLElement).style.display = 'none';
+                }}
+              />
+            )}
 
-            {/* Simulated Dashboard Visual UI Background */}
-            <div style={{ padding: "20px", flex: 1, backgroundColor: "#F8FAFC" }}>
-              <div style={{ fontSize: "16px", fontWeight: 800, color: "#0F172A", marginBottom: "4px" }}>
-                Good afternoon, Golden Light Admin 👋
-              </div>
-              <div style={{ fontSize: "10px", color: "#64748B", marginBottom: "20px" }}>
-                ADMIN • Golden Light School — Thursday, September 24, 2026
-              </div>
-
-              {/* Stat Cards Grid */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "12px", marginBottom: "20px" }}>
-                <div style={mockStatStyle}>
-                  <div>
-                    <span style={{ fontSize: "9px", color: "#64748B" }}>Total Students</span>
-                    <div style={{ fontSize: "18px", fontWeight: 800, color: "#0F172A" }}>4</div>
-                  </div>
-                  <div style={mockIconStyle}>👥</div>
-                </div>
-
-                <div style={mockStatStyle}>
-                  <div>
-                    <span style={{ fontSize: "9px", color: "#64748B" }}>Total Teachers</span>
-                    <div style={{ fontSize: "18px", fontWeight: 800, color: "#0F172A" }}>20</div>
-                  </div>
-                  <div style={mockIconStyle}>🎓</div>
-                </div>
-
-                <div style={mockStatStyle}>
-                  <div>
-                    <span style={{ fontSize: "9px", color: "#64748B" }}>Classes</span>
-                    <div style={{ fontSize: "18px", fontWeight: 800, color: "#0F172A" }}>16</div>
-                  </div>
-                  <div style={mockIconStyle}>📘</div>
-                </div>
-
-                <div style={mockStatStyle}>
-                  <div>
-                    <span style={{ fontSize: "9px", color: "#64748B" }}>Avg Performance</span>
-                    <div style={{ fontSize: "18px", fontWeight: 800, color: "#0F172A" }}>—</div>
-                  </div>
-                  <div style={mockIconStyle}>📊</div>
-                </div>
-              </div>
-
-              {/* Activity Section Placeholder */}
-              <div style={{ backgroundColor: "#FFFFFF", borderRadius: "10px", padding: "12px", border: "1px solid #E2E8F0" }}>
-                <div style={{ fontSize: "11px", fontWeight: 700, color: "#0F172A", marginBottom: "8px" }}>Recent Activity</div>
-                <div style={{ fontSize: "9px", color: "#64748B", padding: "4px 0" }}>Huldah Sani Roni registered as TEACHER</div>
-                <div style={{ fontSize: "9px", color: "#64748B", padding: "4px 0" }}>Hindatu Abubakar registered as TEACHER</div>
-              </div>
-            </div>
-
-            {/* VIDEO PLAYER OVERLAY */}
-            <div 
-              onClick={togglePlay}
+            {/* Actual HTML5 Video Tag */}
+            <video
+              ref={videoRef}
+              src="" // <-- ADD YOUR VIDEO LINK HERE
               style={{
                 position: "absolute",
                 top: 0,
                 left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: isPlaying ? "transparent" : "rgba(15, 23, 42, 0.25)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                zIndex: 10,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: isPlaying ? "block" : "none",
+                zIndex: 5,
               }}
-            >
-              {/* Actual HTML5 Video Tag (Put your video source URL in src) */}
-              <video
-                ref={videoRef}
-                src="" // <-- ADD YOUR VIDEO LINK HERE
+              controls={isPlaying}
+            />
+
+            {/* Play Button Overlay */}
+            {!isPlaying && (
+              <div 
+                onClick={togglePlay}
                 style={{
                   position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: isPlaying ? "block" : "none",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: "rgba(15, 23, 42, 0.25)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  zIndex: 10,
                 }}
-                controls={isPlaying}
-              />
-
-              {/* Centered Large Play Button Overlay */}
-              {!isPlaying && (
+              >
                 <div style={{
                   width: "80px",
                   height: "80px",
@@ -215,8 +156,8 @@ export default function PricingVideoSection() {
                 }}>
                   <Play size={36} color="#FFFFFF" fill="#FFFFFF" style={{ marginLeft: "4px" }} />
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
           </div>
         </div>
@@ -225,24 +166,3 @@ export default function PricingVideoSection() {
     </section>
   );
 }
-
-const mockStatStyle: React.CSSProperties = {
-  backgroundColor: "#FFFFFF",
-  borderRadius: "10px",
-  padding: "10px 12px",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  border: "1px solid #E2E8F0",
-};
-
-const mockIconStyle: React.CSSProperties = {
-  width: "28px",
-  height: "28px",
-  backgroundColor: "#3B82F6",
-  color: "#FFFFFF",
-  borderRadius: "8px",
-  display: "grid",
-  placeItems: "center",
-  fontSize: "12px",
-};
