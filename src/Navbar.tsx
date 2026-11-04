@@ -25,8 +25,7 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
-          <span style={styles.logoText}>SmartEdufy</span>
-        </div>
+           </div>
 
         {/* Nav Links */}
         <div style={styles.linksRow}>
