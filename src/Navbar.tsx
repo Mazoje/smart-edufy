@@ -48,19 +48,10 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
             }} 
             onClick={() => handleNav('about')}
           >
-            Features
-          </button>
-
-          <button 
-            style={{
-              ...styles.linkBtn, 
-              color: currentPage === 'about' ? '#2563EB' : '#475569',
-              fontWeight: currentPage === 'about' ? 700 : 600
-            }} 
-            onClick={() => handleNav('about')}
-          >
             About
           </button>
+
+         
 
           <button 
             style={{
