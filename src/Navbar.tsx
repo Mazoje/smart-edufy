@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   currentPage: string;
@@ -6,8 +7,11 @@ interface NavbarProps {
 }
 
 export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const handleNav = (page: string) => {
     setCurrentPage(page);
+    setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -25,9 +29,9 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
-         </div>
+        </div>
 
-        {/* Nav Links */}
+        {/* Desktop Nav Links */}
         <div style={styles.linksRow}>
           <button 
             style={{
@@ -40,6 +44,8 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
             Home
           </button>
 
+         
+
           <button 
             style={{
               ...styles.linkBtn, 
@@ -50,8 +56,6 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
           >
             About
           </button>
-
-         
 
           <button 
             style={{
@@ -65,7 +69,7 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
           </button>
         </div>
 
-        {/* Right Side Actions: Login & Sign up for free */}
+        {/* Desktop Right Side Actions */}
         <div style={styles.rightActions}>
           <button 
             style={styles.loginBtn}
@@ -82,7 +86,45 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
           </button>
         </div>
 
+        {/* Mobile Hamburger Toggle Button */}
+        <button 
+          style={styles.hamburgerBtn}
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle Menu"
+        >
+          {mobileMenuOpen ? <X size={24} color="#0F172A" /> : <Menu size={24} color="#0F172A" />}
+        </button>
+
       </div>
+
+      {/* Mobile Dropdown Menu */}
+      {mobileMenuOpen && (
+        <div style={styles.mobileDropdown}>
+          <button style={styles.mobileLink} onClick={() => handleNav('home')}>Home</button>
+           <button style={styles.mobileLink} onClick={() => handleNav('about')}>About</button>
+          <button style={styles.mobileLink} onClick={() => handleNav('pricing')}>Pricing</button>
+          <div style={styles.mobileActionRow}>
+            <button style={styles.loginBtn} onClick={() => handleNav('pricing')}>Login</button>
+            <button style={styles.signupBtnMobile} onClick={() => handleNav('pricing')}>Sign up for free</button>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 850px) {
+          .desktop-links, .desktop-actions {
+            display: none !important;
+          }
+          .hamburger-btn {
+            display: flex !important;
+          }
+        }
+        @media (min-width: 851px) {
+          .hamburger-btn, .mobile-dropdown {
+            display: none !important;
+          }
+        }
+      `}</style>
     </nav>
   );
 }
@@ -92,8 +134,9 @@ const styles: { [key: string]: React.CSSProperties } = {
     position: 'sticky',
     top: 0,
     zIndex: 1000,
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    backgroundColor: 'rgba(255, 255, 255, 0.85)',
     backdropFilter: 'blur(16px)',
+    WebkitBackdropFilter: 'blur(16px)',
     borderBottom: '1px solid rgba(255, 255, 255, 0.9)',
     width: '100%',
     boxSizing: 'border-box',
@@ -163,6 +206,55 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontWeight: 700,
     cursor: 'pointer',
     boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
+    whiteSpace: 'nowrap',
     transition: 'all 0.2s ease',
+  },
+  signupBtnMobile: {
+    backgroundColor: '#2563EB',
+    color: '#FFFFFF',
+    border: 'none',
+    padding: '12px 24px',
+    borderRadius: '12px',
+    fontSize: '14px',
+    fontWeight: 700,
+    cursor: 'pointer',
+    width: '100%',
+    textAlign: 'center',
+    boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
+  },
+  hamburgerBtn: {
+    display: 'none',
+    background: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    padding: '4px',
+  },
+  mobileDropdown: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+    padding: '24px',
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    backdropFilter: 'blur(20px)',
+    borderBottom: '1px solid rgba(203, 213, 225, 0.5)',
+    boxShadow: '0 10px 25px rgba(15, 23, 42, 0.1)',
+  },
+  mobileLink: {
+    background: 'transparent',
+    border: 'none',
+    fontSize: '16px',
+    fontWeight: 600,
+    color: '#1E293B',
+    textAlign: 'left',
+    cursor: 'pointer',
+    padding: '4px 0',
+  },
+  mobileActionRow: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px',
+    marginTop: '10px',
+    borderTop: '1px solid #E2E8F0',
+    paddingTop: '16px',
   },
 };

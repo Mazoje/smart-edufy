@@ -27,8 +27,9 @@ import {
 } from 'lucide-react';
 
 interface AboutPageProps {
-  setCurrentPage?: (page: string) => void;
+  setCurrentPage: (page: string) => void;
 }
+
 
 interface FeatureItem {
   title: string;
