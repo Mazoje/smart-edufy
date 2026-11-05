@@ -25,7 +25,7 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
-           </div>
+         </div>
 
         {/* Nav Links */}
         <div style={styles.linksRow}>
@@ -38,6 +38,17 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
             onClick={() => handleNav('home')}
           >
             Home
+          </button>
+
+          <button 
+            style={{
+              ...styles.linkBtn, 
+              color: currentPage === 'about' ? '#2563EB' : '#475569',
+              fontWeight: currentPage === 'about' ? 700 : 600
+            }} 
+            onClick={() => handleNav('about')}
+          >
+            Features
           </button>
 
           <button 
@@ -63,13 +74,22 @@ export default function Navbar({ currentPage, setCurrentPage }: NavbarProps) {
           </button>
         </div>
 
-        {/* Action Button */}
-        <button 
-          style={styles.ctaButton}
-          onClick={() => handleNav('pricing')}
-        >
-          Get Started
-        </button>
+        {/* Right Side Actions: Login & Sign up for free */}
+        <div style={styles.rightActions}>
+          <button 
+            style={styles.loginBtn}
+            onClick={() => handleNav('pricing')}
+          >
+            Login
+          </button>
+
+          <button 
+            style={styles.signupBtn}
+            onClick={() => handleNav('pricing')}
+          >
+            Sign up for free
+          </button>
+        </div>
 
       </div>
     </nav>
@@ -116,27 +136,42 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   linksRow: {
     display: 'flex',
-    gap: '32px',
+    gap: '28px',
     alignItems: 'center',
   },
   linkBtn: {
     background: 'transparent',
     border: 'none',
-    fontSize: '15px',
+    fontSize: '14px',
     cursor: 'pointer',
     padding: 0,
     transition: 'color 0.2s ease',
   },
-  ctaButton: {
+  rightActions: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '16px',
+  },
+  loginBtn: {
+    background: 'transparent',
+    border: 'none',
+    color: '#475569',
+    fontSize: '14px',
+    fontWeight: 600,
+    cursor: 'pointer',
+    padding: '8px 12px',
+    transition: 'color 0.2s ease',
+  },
+  signupBtn: {
     backgroundColor: '#2563EB',
     color: '#FFFFFF',
     border: 'none',
-    padding: '10px 20px',
-    borderRadius: '10px',
+    padding: '10px 22px',
+    borderRadius: '50px',
     fontSize: '14px',
     fontWeight: 700,
     cursor: 'pointer',
-    boxShadow: '0 4px 12px rgba(37, 99, 235, 0.2)',
-    transition: 'background 0.2s ease',
+    boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
+    transition: 'all 0.2s ease',
   },
 };
