@@ -1,320 +1,1234 @@
+import React, { useState } from 'react';
 
-import React from 'react';
+import {
+  WifiOff,
+  Server,
+  ShieldCheck,
+  Building2,
+  UserCheck,
+  FileSpreadsheet,
+  CreditCard,
+  Banknote,
+  Calendar,
+  Timer,
+  Sparkles,
+  BookOpen,
+  Calculator,
+  MessageSquare,
+  Users,
+  QrCode,
+  Receipt,
+  ShieldAlert,
+  MessageCircle,
+  MessageSquareCode,
+  CalendarCheck,
+  Rocket,
+  Tag,
+} from 'lucide-react';
 
-interface FeatureCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
+interface AboutPageProps {
+  setCurrentPage: (page: string, sectionId?: string) => void;
 }
 
-const featuresData: FeatureCardProps[] = [
+interface FeatureItem {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+}
+
+interface SuiteProps {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  reverse?: boolean;
+  features: FeatureItem[];
+}
+
+/* =========================================
+   ADMINISTRATIVE FEATURES
+========================================= */
+
+const adminFeatures: FeatureItem[] = [
   {
-    title: 'Student Management',
+    title: 'Multi-Campus Oversight',
     description:
-      'Complete digital student profiles, enrollment, and biographical records.',
-    icon: (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-        stroke="#2563EB" strokeWidth="1.8" strokeLinecap="round"
-        strokeLinejoin="round">
-        <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-        <circle cx="10" cy="7" r="4" />
-        <path d="M20 8v6M17 11h6" />
-      </svg>
-    ),
+      'Consolidated management dashboard for academy networks, multi-branch groups, and diocesan educational boards.',
+    icon: <Building2 />,
   },
   {
-    title: 'Attendance',
+    title: 'Student Biodata & Records',
     description:
-      'Fast daily roll call, automated absence alerts, and term attendance reports.',
-    icon: (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-        stroke="#2563EB" strokeWidth="1.8" strokeLinecap="round"
-        strokeLinejoin="round">
-        <circle cx="10" cy="8" r="3.5" />
-        <path d="M4 20v-2a5 5 0 0 1 9-3" />
-        <path d="m16 17 2 2 4-5" />
-      </svg>
-    ),
+      'Centralized digital registry with passport photo uploads, family sibling clustering, and instant spreadsheet batch onboarding.',
+    icon: <UserCheck />,
   },
   {
-    title: 'Fees Management',
+    title: 'Ministry & Broadsheet Filings',
     description:
-      'Transparent tuition tracking, instant digital receipts, and payment reminders.',
-    icon: (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-        stroke="#2563EB" strokeWidth="1.8" strokeLinecap="round"
-        strokeLinejoin="round">
-        <rect x="2" y="5" width="20" height="14" rx="2" />
-        <path d="M2 10h20" />
-        <path d="M6 15h3" />
-      </svg>
-    ),
+      'Export standardized ministry-compliant master broadsheets, BECE/WAEC prerequisite trackers, and executive analytics.',
+    icon: <FileSpreadsheet />,
   },
   {
-    title: 'Results',
+    title: 'Staff Payroll & Compliance',
     description:
-      'Automated continuous assessment scoring, broadsheets, and printable report cards.',
-    icon: (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-        stroke="#2563EB" strokeWidth="1.8" strokeLinecap="round"
-        strokeLinejoin="round">
-        <path d="m12 2 3 6.5 7 1-5 4.9 1.2 7L12 18l-6.2 3.4 1.2-7-5-4.9 7-1L12 2Z" />
-      </svg>
-    ),
+      'Automated monthly payroll, tax deduction computations, pension remittances, and confidential salary slip generation.',
+    icon: <CreditCard />,
   },
   {
-    title: 'Timetable',
+    title: 'Bursary & Fee Reconciliation',
     description:
-      'Conflict-free scheduling for classes, teachers, and exam periods.',
-    icon: (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-        stroke="#2563EB" strokeWidth="1.8" strokeLinecap="round"
-        strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2" />
-        <path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01" />
-      </svg>
-    ),
+      'Automated fee invoicing, termly ledger reconciliation, instant receipting, and multi-channel bank clearing without financial leakages.',
+    icon: <Banknote />,
   },
   {
-    title: 'Parent Communication',
+    title: 'Conflict-Free Timetabler',
     description:
-      'Direct SMS and app notifications for updates, alerts, and report releases.',
-    icon: (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-        stroke="#2563EB" strokeWidth="1.8" strokeLinecap="round"
-        strokeLinejoin="round">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        <path d="M8 10h.01M12 10h.01M16 10h.01" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Staff Management',
-    description:
-      'Teacher assignments, payroll tracking, and performance records in one place.',
-    icon: (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-        stroke="#2563EB" strokeWidth="1.8" strokeLinecap="round"
-        strokeLinejoin="round">
-        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Reports',
-    description:
-      'Comprehensive school analytics and exportable ministry compliance reports.',
-    icon: (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-        stroke="#2563EB" strokeWidth="1.8" strokeLinecap="round"
-        strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2" />
-        <path d="M8 16v-3M12 16V8M16 16v-5" />
-      </svg>
-    ),
+      'Intelligent scheduling accommodating specialized instructors, shared lab facilities, and double periods without timetable clashes.',
+    icon: <Calendar />,
   },
 ];
 
-export default function Features() {
+/* =========================================
+   TEACHER FEATURES
+========================================= */
+
+const teacherFeatures: FeatureItem[] = [
+  {
+    title: '60-Second Mobile Roll-Call',
+    description:
+      'Rapid morning attendance marking on any mobile phone that instantly flags unexcused absences for parent notification.',
+    icon: <Timer />,
+  },
+  {
+    title: 'Offline CA & Exam Grading',
+    description:
+      'Record test marks and continuous assessments without active internet connectivity; scores synchronize silently when reconnected.',
+    icon: <WifiOff />,
+  },
+  {
+    title: 'AI Report Remarks',
+    description:
+      'Generate constructive, personalized terminal comments based on multi-term academic trajectory in one click.',
+    icon: <Sparkles />,
+  },
+  {
+    title: 'Syllabus & Schemes of Work',
+    description:
+      'Digitally track termly scheme milestones, share pedagogical notes, and collaborate effortlessly across teaching departments.',
+    icon: <BookOpen />,
+  },
+  {
+    title: 'Instant Broadsheet Engine',
+    description:
+      'Eliminate tedious spreadsheet macros with automatic computation of cumulative scores, class averages, and subject positions.',
+    icon: <Calculator />,
+  },
+  {
+    title: 'Direct Guardian Messaging',
+    description:
+      'Communicate directly with student guardians without exposing personal phone numbers or interrupting lesson periods.',
+    icon: <MessageSquare />,
+  },
+];
+
+/* =========================================
+   PARENT FEATURES
+========================================= */
+
+const parentFeatures: FeatureItem[] = [
+  {
+    title: 'Verified Digital Report Cards',
+    description:
+      'Download tamper-proof terminal academic records with instant cryptographic QR verification on closing day.',
+    icon: <QrCode />,
+  },
+  {
+    title: 'Transparent Fee Breakdowns',
+    description:
+      'Itemized billing statements for tuition, development levies, uniforms, and bus transport with traceable payment confirmations.',
+    icon: <Receipt />,
+  },
+  {
+    title: 'Verified Guardian ID',
+    description:
+      'Ensure child safety with photo-authenticated guardian pickup authorizations and secure multi-grade sibling profiles.',
+    icon: <ShieldAlert />,
+  },
+  {
+    title: 'Direct Teacher Communication',
+    description:
+      'Structured direct desk messaging allows parents to inquire into student progress without disrupting active instructional hours.',
+    icon: <MessageCircle />,
+  },
+  {
+    title: 'Instant SMS & WhatsApp Alerts',
+    description:
+      'Immediate peace-of-mind alerts for morning campus arrival, gate check-in, and emergency administrative announcements.',
+    icon: <MessageSquareCode />,
+  },
+  {
+    title: 'Calendar & Event Sync',
+    description:
+      'Keep track of mid-term breaks, open house consultations, PTA meetings, and sports activities synchronized to your smartphone.',
+    icon: <CalendarCheck />,
+  },
+];
+
+/* =========================================
+   PLATFORM FEATURES
+========================================= */
+
+const topFeatures: FeatureItem[] = [
+  {
+    title: 'Offline-First Sync',
+    description:
+      'Operate reliably through unstable connectivity; local changes sync seamlessly.',
+    icon: <WifiOff />,
+  },
+  {
+    title: 'Zero Server Setup',
+    description:
+      'No expensive hardware or complex on-premise IT maintenance required.',
+    icon: <Server />,
+  },
+  {
+    title: 'Bank-Grade Privacy',
+    description:
+      'Enterprise encryption protects confidential financial data and student records.',
+    icon: <ShieldCheck />,
+  },
+];
+
+/* =========================================
+   REUSABLE FEATURE CARD
+========================================= */
+
+function FeatureCard({ item }: { item: FeatureItem }) {
   return (
-    <section className="features-section" style={styles.section}>
-      <div style={styles.container}>
+    <article className="about-feature-card">
+      <div className="about-icon-box">
+        {React.cloneElement(
+          item.icon as React.ReactElement,
+          {
+            size: 19,
+            strokeWidth: 2,
+          }
+        )}
+      </div>
 
-        {/* Section Header */}
-        <div className="features-header" style={styles.header}>
-          <h2 style={styles.title}>
-            Everything Your School Needs
-          </h2>
+      <h3>{item.title}</h3>
+      <p>{item.description}</p>
+    </article>
+  );
+}
 
-          <p style={styles.subtitle}>
-            Simple, powerful tools crafted specifically for the daily
-            administration of primary and secondary institutions.
-          </p>
+/* =========================================
+   REUSABLE SUITE SECTION
+========================================= */
+
+function SuiteSection({
+  id,
+  eyebrow,
+  title,
+  description,
+  image,
+  imageAlt,
+  reverse = false,
+  features,
+}: SuiteProps) {
+  const [imageSrc, setImageSrc] = useState(image);
+
+  const [fallbackAttempted, setFallbackAttempted] = useState(false);
+
+  const handleImageError = () => {
+    if (!fallbackAttempted && imageSrc !== '/admin-phone.png') {
+      setFallbackAttempted(true);
+      setImageSrc('/admin-phone.png');
+    }
+  };
+
+  return (
+    <section
+      className={`about-suite ${reverse ? 'about-reverse' : ''}`}
+      id={id}
+    >
+      <div className="about-suite-header">
+
+        <div className="about-eyebrow">
+          <span className="about-eyebrow-icon">
+            {id === 'administrative' ? (
+              <Building2 size={14} />
+            ) : id === 'teachers' ? (
+              <Sparkles size={14} />
+            ) : (
+              <Users size={14} />
+            )}
+          </span>
+
+          {eyebrow}
         </div>
 
-        {/* Features Grid */}
-        <div className="features-grid" style={styles.grid}>
-          {featuresData.map((item, index) => (
-            <div
-              key={index}
-              className="feature-card"
-              style={styles.card}
-            >
-              <div style={styles.iconBox}>
-                {item.icon}
-              </div>
+        <div className="about-suite-heading">
+          <div>
+            <h2>{title}</h2>
+            <p>{description}</p>
+          </div>
 
-              <h3 style={styles.cardTitle}>
-                {item.title}
-              </h3>
+          <span className="about-modules">
+            6 Modules Enabled
+          </span>
+        </div>
 
-              <p style={styles.cardDesc}>
-                {item.description}
-              </p>
-            </div>
+        <div className="about-divider" />
+      </div>
+
+      <div className="about-suite-layout">
+
+        <div className="about-phone">
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            loading="lazy"
+            onError={handleImageError}
+          />
+        </div>
+
+        <div className="about-feature-grid">
+          {features.map((item) => (
+            <FeatureCard
+              key={item.title}
+              item={item}
+            />
           ))}
         </div>
 
       </div>
-
-      {/* Responsive and Hover Styles */}
-      <style>{`
-        
-
-        .feature-card {
-          transition:
-            transform 0.25s ease,
-            box-shadow 0.25s ease,
-            background 0.25s ease !important;
-        }
-
-        .feature-card:hover {
-          transform: translateY(-3px);
-          background: rgba(255, 255, 255, 0.78) !important;
-          box-shadow:
-            0 8px 18px rgba(15, 23, 42, 0.13),
-            0 2px 5px rgba(15, 23, 42, 0.08) !important;
-        }
-
-        @media (max-width: 850px) {
-          .features-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-          }
-
-          .features-header {
-            margin-bottom: 40px !important;
-          }
-        }
-
-        @media (max-width: 520px) {
-          .features-section {
-            padding: 45px 0 !important;
-          }
-
-          .features-header {
-            margin-bottom: 32px !important;
-          }
-
-          .features-header h2 {
-            font-size: 24px !important;
-          }
-
-          .features-header p {
-            font-size: 12px !important;
-          }
-
-          .features-grid {
-            grid-template-columns: 1fr !important;
-            gap: 16px !important;
-          }
-
-          .feature-card {
-            min-height: 145px;
-          }
-        }
-      `}</style>
     </section>
   );
 }
 
-const styles: { [key: string]: React.CSSProperties } = {
-  section: {
-    width: '100%',
-    background: `
-      linear-gradient(
-        180deg,
-        #F1F2FF 0%,
-        #EAF0FF 100%
-      )
-    `,
-    padding: '62px 0 46px',
-    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-  },
+/* =========================================
+   MAIN ABOUT PAGE
+========================================= */
 
-  container: {
-    width: '100%',
-    maxWidth: '1280px',
-    margin: '0 auto',
-    padding: '0 10px',
-  },
+export default function AboutPage({
+  setCurrentPage,
+}: AboutPageProps) {
 
-  header: {
-    textAlign: 'center',
-    maxWidth: '625px',
-    margin: '0 auto 49px auto',
-  },
+  const [activeTab, setActiveTab] = useState('all');
 
-  title: {
-    fontSize: '25px',
-    fontWeight: 750,
-    color: '#101D32',
-    letterSpacing: '-0.9px',
-    lineHeight: 1.25,
-    margin: '0 0 10px 0',
-  },
+  const sections: SuiteProps[] = [
+    {
+      id: 'administrative',
+      eyebrow: 'Institutional Oversight & Financials',
+      title: 'Administrative Suite',
+      description:
+        'Precision control over institutional cashflow, regulatory compliance, multi-term admissions, and seamless campus scheduling.',
+      image: '/screen4.png',
+      imageAlt: 'SmartEdufy Admin Mobile Dashboard',
+      features: adminFeatures,
+    },
+    {
+      id: 'teachers',
+      eyebrow: 'Empowering Classroom Educators',
+      title: 'Teacher Tools',
+      description:
+        'Spend less time on repetitive manual record-keeping and broadsheet math, and more time inspiring academic excellence.',
+      image: '/screen2.png',
+      imageAlt: 'SmartEdufy Teacher Mobile Dashboard',
+      reverse: true,
+      features: teacherFeatures,
+    },
+    {
+      id: 'parents',
+      eyebrow: 'Connected Families',
+      title: 'Parent Portal',
+      description:
+        'Bridging the communication gap between the classroom and home via everyday mobile devices and direct WhatsApp channels.',
+      image: '/screen1.png',
+      imageAlt: 'SmartEdufy Parent Mobile Portal',
+      features: parentFeatures,
+    },
+  ];
 
-  subtitle: {
-    fontSize: '13px',
-    color: '#64718A',
-    lineHeight: 1.55,
-    fontWeight: 400,
-    margin: 0,
-  },
+  const visibleSections =
+    activeTab === 'all'
+      ? sections
+      : sections.filter(
+          (section) => section.id === activeTab
+        );
 
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
-    gap: '19px',
-    width: '100%',
-  },
+  const handlePricing = () => {
+    setCurrentPage('pricing');
+  };
 
-  card: {
-    minWidth: 0,
-    minHeight: '163px',
-    background: 'rgba(237, 243, 255, 0.58)',
-    backdropFilter: 'blur(14px)',
-    WebkitBackdropFilter: 'blur(14px)',
-    border: '1px solid rgba(203, 213, 225, 0.65)',
-    borderRadius: '24px',
-    padding: '20px 19px',
-    boxShadow: `
-      0 3px 5px rgba(15, 23, 42, 0.20),
-      0 1px 2px rgba(15, 23, 42, 0.12),
-      inset 0 1px 2px rgba(255, 255, 255, 0.75)
-    `,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
+  return (
+    <main className="about-page">
 
-  iconBox: {
-    width: '30px',
-    height: '30px',
-    background: 'rgba(255, 255, 255, 0.20)',
-    borderRadius: '6px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: '18px',
-    flexShrink: 0,
-  },
+      <div className="about-container">
 
-  cardTitle: {
-    fontSize: '13px',
-    fontWeight: 650,
-    color: '#142238',
-    margin: '0 0 8px 0',
-    letterSpacing: '-0.15px',
-    lineHeight: 1.3,
-  },
+        {/* HERO */}
+        <header className="about-hero">
 
-  cardDesc: {
-    fontSize: '11.5px',
-    color: '#64718A',
-    lineHeight: 1.45,
-    fontWeight: 400,
-    margin: 0,
-  },
-};
+          <div className="about-main-badge">
+            <span className="about-main-dot" />
+            PURPOSE-BUILT FOR AFRICAN EDUCATION
+          </div>
+
+          <h1>
+            Everything Your School Needs
+          </h1>
+
+          <p className="about-hero-subtitle">
+            A complete, unified school management platform built for African schools.
+          </p>
+
+          {/* FEATURE FILTERS */}
+          <nav
+            className="about-tabs"
+            aria-label="Filter features"
+          >
+
+            <button
+              className={activeTab === 'all' ? 'selected' : ''}
+              onClick={() => setActiveTab('all')}
+              aria-pressed={activeTab === 'all'}
+            >
+              All Features
+            </button>
+
+            <button
+              className={
+                activeTab === 'administrative' ? 'selected' : ''
+              }
+              onClick={() => setActiveTab('administrative')}
+              aria-pressed={activeTab === 'administrative'}
+            >
+              <Building2 size={14} />
+              Administrative
+            </button>
+
+            <button
+              className={activeTab === 'teachers' ? 'selected' : ''}
+              onClick={() => setActiveTab('teachers')}
+              aria-pressed={activeTab === 'teachers'}
+            >
+              <BookOpen size={14} />
+              Teachers
+            </button>
+
+            <button
+              className={activeTab === 'parents' ? 'selected' : ''}
+              onClick={() => setActiveTab('parents')}
+              aria-pressed={activeTab === 'parents'}
+            >
+              <Users size={14} />
+              Parents
+            </button>
+
+          </nav>
+
+          {/* TOP FEATURES */}
+          <div className="about-top-grid">
+            {topFeatures.map((item) => (
+              <FeatureCard
+                key={item.title}
+                item={item}
+              />
+            ))}
+          </div>
+
+        </header>
+
+        {/* SUITE SECTIONS */}
+        <div className="about-sections">
+
+          {visibleSections.map((section) => (
+            <SuiteSection
+              key={section.id}
+              {...section}
+            />
+          ))}
+
+        </div>
+
+        {/* CTA */}
+        {activeTab === 'all' && (
+          <section className="about-cta">
+
+            <div className="about-cta-badge">
+              <Rocket size={15} />
+              Empower Your Institution Today
+            </div>
+
+            <h2>
+              Ready to Modernize Your School’s Workflow?
+            </h2>
+
+            <p>
+              Join hundreds of forward-thinking African schools.
+              Get a tailored 20-minute demonstration for your board,
+              bursary desk, or administrative team.
+            </p>
+
+            <button onClick={handlePricing}>
+              Explore Pricing Plans
+              <Tag size={16} />
+            </button>
+
+          </section>
+        )}
+
+      </div>
+
+      {/* STYLES */}
+      <style>{`
+
+        /* =====================================
+           ABOUT PAGE BASE
+        ===================================== */
+
+        .about-page,
+        .about-page * {
+          box-sizing: border-box;
+        }
+
+        .about-page {
+          width: 100%;
+          min-height: 100vh;
+          overflow: hidden;
+
+          font-family: Inter, system-ui, -apple-system, sans-serif;
+          color: #17243A;
+
+          background:
+            radial-gradient(
+              ellipse at 50% 5%,
+              rgba(244, 207, 255, 0.65) 0%,
+              transparent 38%
+            ),
+            radial-gradient(
+              ellipse at 50% 48%,
+              rgba(192, 211, 255, 0.45) 0%,
+              transparent 50%
+            ),
+            linear-gradient(
+              180deg,
+              #FBE9FF 0%,
+              #F8EFFF 17%,
+              #EAF0FF 42%,
+              #DCE5FF 66%,
+              #F3E7FF 87%,
+              #FCEAFF 100%
+            );
+
+          padding: 55px 0 80px;
+        }
+
+        .about-container {
+          max-width: 1320px;
+          width: 100%;
+          padding: 0 28px;
+          margin: 0 auto;
+        }
+
+        /* =====================================
+           HERO
+        ===================================== */
+
+        .about-hero {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          margin-bottom: 48px;
+        }
+
+        .about-main-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 15px;
+
+          background: rgba(219, 234, 254, 0.7);
+          border: 1px solid rgba(191, 219, 254, 0.85);
+          border-radius: 30px;
+
+          color: #1D4ED8;
+          font-size: 10px;
+          font-weight: 750;
+          letter-spacing: 0.5px;
+
+          margin-bottom: 16px;
+        }
+
+        .about-main-dot {
+          width: 7px;
+          height: 7px;
+          background: #2563EB;
+          border-radius: 50%;
+          flex-shrink: 0;
+        }
+
+        .about-hero h1 {
+          font-size: clamp(32px, 4vw, 45px);
+          font-weight: 800;
+          letter-spacing: -1.4px;
+          color: #101D32;
+          line-height: 1.2;
+          margin: 0 0 12px;
+        }
+
+        .about-hero-subtitle {
+          color: #52617A;
+          font-size: 15px;
+          font-weight: 500;
+          line-height: 1.7;
+          margin: 0 0 28px;
+          max-width: 620px;
+        }
+
+        /* =====================================
+           TABS
+        ===================================== */
+
+        .about-tabs {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 5px;
+
+          padding: 5px;
+          border-radius: 13px;
+
+          border: 1px solid rgba(203, 213, 225, 0.85);
+          background: rgba(255, 255, 255, 0.55);
+
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+
+          margin-bottom: 42px;
+
+          box-shadow: 0 4px 14px rgba(30, 41, 59, 0.05);
+        }
+
+        .about-tabs button {
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          gap: 7px;
+
+          border: none;
+          border-radius: 9px;
+          padding: 11px 16px;
+
+          background: transparent;
+          color: #475569;
+
+          font-family: inherit;
+          font-size: 12px;
+          font-weight: 650;
+
+          cursor: pointer;
+          white-space: nowrap;
+
+          transition: all 0.2s ease;
+        }
+
+        .about-tabs button:hover {
+          background: rgba(219, 234, 254, 0.7);
+          color: #2563EB;
+        }
+
+        .about-tabs button.selected {
+          color: #FFFFFF;
+          background: #2563EB;
+          font-weight: 750;
+
+          box-shadow: 0 4px 12px rgba(37, 99, 235, 0.22);
+        }
+
+        /* =====================================
+           FEATURE CARDS
+        ===================================== */
+
+        .about-top-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          width: 100%;
+          gap: 18px;
+        }
+
+        .about-feature-card {
+          min-width: 0;
+
+          background: rgba(255, 255, 255, 0.58);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+
+          border: 1px solid rgba(255, 255, 255, 0.9);
+          border-radius: 19px;
+
+          padding: 21px;
+
+          box-shadow:
+            0 6px 18px rgba(15, 23, 42, 0.07),
+            inset 0 1px 2px rgba(255, 255, 255, 0.9);
+
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          text-align: left;
+
+          transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+        }
+
+        .about-feature-card:hover {
+          transform: translateY(-3px);
+
+          box-shadow:
+            0 12px 25px rgba(15, 23, 42, 0.1),
+            inset 0 1px 2px rgba(255, 255, 255, 0.9);
+        }
+
+        .about-icon-box {
+          width: 39px;
+          height: 39px;
+          flex-shrink: 0;
+
+          border-radius: 10px;
+
+          display: grid;
+          place-items: center;
+
+          background: rgba(219, 234, 254, 0.9);
+          color: #2563EB;
+
+          margin-bottom: 13px;
+        }
+
+        .about-feature-card h3 {
+          font-size: 15px;
+          font-weight: 750;
+          color: #17243A;
+          line-height: 1.4;
+          margin: 0 0 7px;
+        }
+
+        .about-feature-card p {
+          font-size: 13px;
+          font-weight: 450;
+          color: #52617A;
+          line-height: 1.7;
+          margin: 0;
+        }
+
+        /* =====================================
+           SUITE HEADERS
+        ===================================== */
+
+        .about-suite {
+          width: 100%;
+          margin-top: 48px;
+          scroll-margin-top: 100px;
+        }
+
+        .about-eyebrow {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          font-size: 12px;
+          font-weight: 750;
+          color: #2563EB;
+
+          margin-bottom: 10px;
+        }
+
+        .about-eyebrow-icon {
+          display: flex;
+          align-items: center;
+        }
+
+        .about-suite-heading {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          gap: 20px;
+        }
+
+        .about-suite-heading h2 {
+          font-size: clamp(25px, 3vw, 33px);
+          font-weight: 800;
+          letter-spacing: -0.8px;
+          color: #142238;
+          line-height: 1.2;
+          margin: 0 0 7px;
+        }
+
+        .about-suite-heading p {
+          max-width: 680px;
+          font-size: 13px;
+          font-weight: 500;
+          color: #52617A;
+          line-height: 1.7;
+          margin: 0;
+        }
+
+        .about-modules {
+          font-size: 11px;
+          font-weight: 700;
+          color: #475569;
+          white-space: nowrap;
+          padding-bottom: 3px;
+        }
+
+        .about-divider {
+          width: 100%;
+          height: 1px;
+          background: rgba(148, 163, 184, 0.35);
+          margin-top: 19px;
+          margin-bottom: 30px;
+        }
+
+        /* =====================================
+           SUITE LAYOUT
+        ===================================== */
+
+        .about-suite-layout {
+          display: grid;
+          grid-template-columns: minmax(150px, 0.48fr) minmax(0, 1.52fr);
+          gap: 30px;
+          align-items: center;
+          width: 100%;
+        }
+
+        .about-phone {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-width: 0;
+        }
+
+        .about-phone img {
+          display: block;
+          width: 100%;
+          max-width: 190px;
+          height: auto;
+          object-fit: contain;
+
+          filter: drop-shadow(
+            0 14px 20px rgba(15, 23, 42, 0.16)
+          );
+        }
+
+        /* =====================================
+           SUITE FEATURE GRID
+        ===================================== */
+
+        .about-feature-grid {
+          min-width: 0;
+
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 16px;
+        }
+
+        .about-feature-grid .about-feature-card {
+          min-height: 140px;
+          padding: 17px;
+          border-radius: 17px;
+        }
+
+        .about-feature-grid .about-icon-box {
+          width: 34px;
+          height: 34px;
+          margin-bottom: 9px;
+        }
+
+        .about-feature-grid .about-feature-card h3 {
+          font-size: 13px;
+          margin: 0 0 6px;
+        }
+
+        .about-feature-grid .about-feature-card p {
+          font-size: 11px;
+          line-height: 1.65;
+        }
+
+        /* =====================================
+           REVERSE LAYOUT
+        ===================================== */
+
+        .about-reverse .about-suite-layout {
+          grid-template-columns: minmax(0, 1.52fr) minmax(150px, 0.48fr);
+        }
+
+        .about-reverse .about-phone {
+          grid-column: 2;
+          grid-row: 1;
+        }
+
+        .about-reverse .about-feature-grid {
+          grid-column: 1;
+          grid-row: 1;
+        }
+
+        /* =====================================
+           CTA
+        ===================================== */
+
+        .about-cta {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+
+          margin-top: 70px;
+          padding: 50px 30px;
+
+          border: 1px solid rgba(255, 255, 255, 0.9);
+          border-radius: 26px;
+
+          background: rgba(255, 255, 255, 0.58);
+
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+
+          box-shadow:
+            0 12px 35px rgba(15, 23, 42, 0.07),
+            inset 0 1px 2px rgba(255, 255, 255, 0.9);
+        }
+
+        .about-cta-badge {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          color: #2563EB;
+          font-size: 12px;
+          font-weight: 750;
+
+          padding: 8px 15px;
+          border-radius: 30px;
+
+          background: rgba(219, 234, 254, 0.7);
+          border: 1px solid rgba(191, 219, 254, 0.65);
+
+          margin-bottom: 18px;
+        }
+
+        .about-cta h2 {
+          font-size: clamp(26px, 3vw, 37px);
+          color: #142238;
+          font-weight: 800;
+          letter-spacing: -0.9px;
+          line-height: 1.3;
+          margin: 0 0 13px;
+        }
+
+        .about-cta p {
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1.75;
+          color: #52617A;
+          max-width: 680px;
+          margin: 0 0 25px;
+        }
+
+        .about-cta button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+
+          padding: 14px 24px;
+          border: none;
+          border-radius: 10px;
+
+          background: #2563EB;
+          color: white;
+
+          font-size: 13px;
+          font-weight: 750;
+          font-family: inherit;
+
+          cursor: pointer;
+
+          box-shadow: 0 5px 15px rgba(37, 99, 235, 0.22);
+
+          transition: all 0.2s ease;
+        }
+
+        .about-cta button:hover {
+          background: #1D4ED8;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(37, 99, 235, 0.28);
+        }
+
+        /* =====================================
+           TABLET
+        ===================================== */
+
+        @media (max-width: 900px) {
+
+          .about-container {
+            padding-left: 22px;
+            padding-right: 22px;
+          }
+
+          .about-suite-layout {
+            grid-template-columns: minmax(130px, 0.42fr) minmax(0, 1.58fr);
+            gap: 20px;
+          }
+
+          .about-reverse .about-suite-layout {
+            grid-template-columns: minmax(0, 1.58fr) minmax(130px, 0.42fr);
+          }
+
+          .about-phone img {
+            max-width: 155px;
+          }
+
+          .about-feature-grid {
+            gap: 12px;
+          }
+
+          .about-feature-grid .about-feature-card {
+            min-height: 130px;
+            padding: 14px;
+          }
+        }
+
+        /* =====================================
+           SMALL TABLETS
+        ===================================== */
+
+        @media (max-width: 760px) {
+
+          .about-top-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .about-suite-layout,
+          .about-reverse .about-suite-layout {
+            grid-template-columns: 1fr;
+            gap: 25px;
+          }
+
+          .about-phone img {
+            max-width: 175px;
+          }
+
+          .about-reverse .about-phone,
+          .about-reverse .about-feature-grid {
+            grid-column: auto;
+            grid-row: auto;
+          }
+
+          .about-feature-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+        }
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (max-width: 600px) {
+
+          .about-page {
+            padding: 40px 0 55px;
+          }
+
+          .about-container {
+            padding: 0 16px;
+          }
+
+          .about-hero {
+            margin-bottom: 35px;
+          }
+
+          .about-hero h1 {
+            font-size: 30px;
+            letter-spacing: -0.9px;
+          }
+
+          .about-hero-subtitle {
+            font-size: 13px;
+            max-width: 360px;
+          }
+
+          .about-main-badge {
+            font-size: 9px;
+          }
+
+          .about-tabs {
+            width: 100%;
+            max-width: 390px;
+            margin-bottom: 30px;
+            gap: 3px;
+          }
+
+          .about-tabs button {
+            font-size: 10px;
+            padding: 9px 10px;
+          }
+
+          .about-top-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+          }
+
+          .about-top-grid .about-feature-card {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            column-gap: 12px;
+            padding: 15px;
+          }
+
+          .about-top-grid .about-icon-box {
+            grid-row: 1 / span 2;
+            margin: 0;
+          }
+
+          .about-top-grid .about-feature-card h3 {
+            font-size: 14px;
+            margin: 0 0 4px;
+          }
+
+          .about-top-grid .about-feature-card p {
+            font-size: 12px;
+          }
+
+          .about-suite {
+            margin-top: 40px;
+          }
+
+          .about-suite-heading {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 8px;
+          }
+
+          .about-suite-heading h2 {
+            font-size: 25px;
+          }
+
+          .about-suite-heading p {
+            font-size: 12px;
+          }
+
+          .about-modules {
+            font-size: 10px;
+          }
+
+          .about-divider {
+            margin-bottom: 23px;
+          }
+
+          .about-suite-layout,
+          .about-reverse .about-suite-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 23px;
+          }
+
+          .about-phone {
+            width: 100%;
+          }
+
+          .about-phone img {
+            max-width: 165px;
+          }
+
+          .about-reverse .about-phone {
+            order: -1;
+          }
+
+          .about-feature-grid {
+            width: 100%;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 11px;
+          }
+
+          .about-feature-grid .about-feature-card {
+            min-height: 140px;
+            padding: 13px;
+          }
+
+          .about-feature-grid .about-feature-card h3 {
+            font-size: 12px;
+          }
+
+          .about-feature-grid .about-feature-card p {
+            font-size: 10px;
+            line-height: 1.6;
+          }
+
+          .about-cta {
+            margin-top: 48px;
+            padding: 32px 18px;
+          }
+
+          .about-cta h2 {
+            font-size: 26px;
+          }
+
+          .about-cta p {
+            font-size: 12px;
+          }
+
+        }
+
+        /* =====================================
+           SMALL PHONES
+        ===================================== */
+
+        @media (max-width: 380px) {
+
+          .about-container {
+            padding: 0 13px;
+          }
+
+          .about-feature-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .about-tabs button {
+            font-size: 9px;
+            padding: 8px;
+          }
+
+          .about-feature-grid .about-feature-card {
+            min-height: auto;
+          }
+
+        }
+
+        /* =====================================
+           REDUCED MOTION
+        ===================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+          .about-page *,
+          .about-page *::before,
+          .about-page *::after {
+            transition-duration: 0.01ms !important;
+            animation-duration: 0.01ms !important;
+          }
+
+        }
+
+      `}</style>
+
+    </main>
+  );
+}

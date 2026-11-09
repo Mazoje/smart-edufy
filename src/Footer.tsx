@@ -5,9 +5,18 @@ interface FooterProps {
 }
 
 export default function Footer({ setCurrentPage }: FooterProps) {
-  const navigateTo = (page: string) => {
+  const navigateTo = (page: string, sectionId?: string) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (sectionId) {
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -37,8 +46,10 @@ export default function Footer({ setCurrentPage }: FooterProps) {
           {/* Nav Links */}
           <div style={styles.linksRow}>
             <button style={styles.linkBtn} onClick={() => navigateTo('home')}>Home</button>
-            <button style={styles.linkBtn} onClick={() => navigateTo('about')}>About</button>
+            <button style={styles.linkBtn} onClick={() => navigateTo('about')}>Features</button>
+            <button style={styles.linkBtn} onClick={() => navigateTo('home', 'features')}>About</button>
             <button style={styles.linkBtn} onClick={() => navigateTo('pricing')}>Pricing</button>
+            <button style={styles.linkBtn} onClick={() => navigateTo('home', 'faq')}>FAQ</button>
           </div>
 
           {/* Legal / Copyright */}
