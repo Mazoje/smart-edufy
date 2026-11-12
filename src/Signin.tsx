@@ -84,21 +84,36 @@ export default function SmartEdufySignIn({ setCurrentPage }: SigninProps) {
       flexDirection: isMobile ? 'column' : 'row',
       flex: 1,
     },
-    leftHeroSection: {
-      flex: 1,
-      width: '100%',
-      background: `
-        radial-gradient(ellipse 90% 45% at 50% 0%, rgba(245, 215, 255, 0.85) 0%, rgba(255, 255, 255, 0) 70%),
-        radial-gradient(ellipse 90% 45% at 50% 100%, rgba(250, 230, 255, 0.8) 0%, rgba(255, 255, 255, 0) 75%),
-        linear-gradient(180deg, #fbf7ff 0%, #ffffff 50%, #fcf5ff 100%)
-      `,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      padding: isMobile ? '2rem 1.25rem' : '2rem 3rem',
-      position: 'relative',
-    },
+   
+leftHeroSection: {
+  flex: 1,
+  width: '100%',
+  background: `
+    radial-gradient(
+      ellipse 90% 40% at 50% 0%,
+      rgba(238, 190, 255, 0.48) 0%,
+      transparent 75%
+    ),
+    radial-gradient(
+      ellipse 90% 45% at 50% 100%,
+      rgba(246, 213, 255, 0.55) 0%,
+      transparent 75%
+    ),
+    linear-gradient(
+      180deg,
+      #fbf5ff 0%,
+      #ffffff 48%,
+      #fcf3ff 100%
+    )
+  `,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  padding: isMobile ? '2rem 1.25rem' : '2rem 3rem',
+  position: 'relative',
+},
+
     homeBtn: {
       display: 'flex',
       alignItems: 'center',
@@ -131,7 +146,7 @@ export default function SmartEdufySignIn({ setCurrentPage }: SigninProps) {
       marginBottom: isMobile ? '1rem' : 'auto',
     },
     heroImg: {
-      width: '100%',
+      width: '110%',
       height: 'auto',
       objectFit: 'contain',
       marginTop: '1.5rem',
@@ -167,19 +182,36 @@ export default function SmartEdufySignIn({ setCurrentPage }: SigninProps) {
       margin: '0.75rem 0 1rem 0',
       alignItems: 'center',
     },
-    rightFormSection: {
-      flex: 1,
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: isMobile ? '2.5rem 1.25rem' : '3rem 2rem',
-      backgroundColor: '#ffffff',
-      backgroundImage: "url('/signin.jpeg')", 
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-    },
+   
+rightFormSection: {
+  flex: 1,
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: isMobile ? '2.5rem 1.25rem' : '3rem 2rem',
+
+  backgroundColor: '#ffffff',
+
+  backgroundImage: `
+    repeating-conic-gradient(
+      from -8deg at 50% 48%,
+      rgba(148, 163, 184, 0.055) 0deg 7deg,
+      transparent 7deg 14deg
+    ),
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.45) 75%,
+      #ffffff 100%
+    )
+  `,
+
+  backgroundPosition: 'center',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+},
+
     formWrapper: {
       width: '100%',
       maxWidth: '440px',

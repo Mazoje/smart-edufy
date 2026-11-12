@@ -818,7 +818,7 @@ export default function AboutPage({
         .about-phone img {
           display: block;
           width: 100%;
-          max-width: 190px;
+          max-width: 250px;
           height: auto;
           object-fit: contain;
 
