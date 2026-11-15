@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
 
 interface HeroProps {
@@ -10,6 +10,18 @@ export default function Hero({ setCurrentPage }: HeroProps) {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Edufy AI color cycling state (cycles between 3 vibrant colors every 2 seconds)
+  const [aiColorIndex, setAiColorIndex] = useState<number>(0);
+  const aiColors = ['#2563EB', '#D946EF', '#10B981']; // Blue, Pink, Emerald
+
+  useEffect(() => {
+    const colorInterval = setInterval(() => {
+      setAiColorIndex((prevIndex) => (prevIndex + 1) % aiColors.length);
+    }, 2000);
+
+    return () => clearInterval(colorInterval);
+  }, []);
 
   return (
     <>
@@ -29,7 +41,7 @@ export default function Hero({ setCurrentPage }: HeroProps) {
             </div>
 
             <h1 className="hero-title">
-              The AI-Powered School Management System Built for{' '}
+              Powered by <span style={{ color: aiColors[aiColorIndex], transition: 'color 0.6s ease-in-out' }}>Edufy AI</span>: The Smart School Management System Built for{' '}
               <span>African Schools.</span>
             </h1>
 
@@ -83,9 +95,7 @@ export default function Hero({ setCurrentPage }: HeroProps) {
 
           {/* RIGHT IMAGE */}
           <div className="hero-image-col">
-
-            {/* Image now sits directly on the hero background */}
-            <div className="hero-image-glass">
+           <div className="hero-image-glass">
 
               <img
                 src="/screen3.png"

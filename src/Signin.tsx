@@ -36,6 +36,15 @@ export default function SmartEdufySignIn({ setCurrentPage }: SigninProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Automatic slide/scroll effect every 0.5 seconds (500ms)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide === 0 ? 1 : 0));
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const styles: { [key: string]: React.CSSProperties } = {
     pageWrapper: {
       display: 'flex',
@@ -84,36 +93,35 @@ export default function SmartEdufySignIn({ setCurrentPage }: SigninProps) {
       flexDirection: isMobile ? 'column' : 'row',
       flex: 1,
     },
-   
-leftHeroSection: {
-  flex: 1,
-  width: '100%',
-  background: `
-    radial-gradient(
-      ellipse 90% 40% at 50% 0%,
-      rgba(238, 190, 255, 0.48) 0%,
-      transparent 75%
-    ),
-    radial-gradient(
-      ellipse 90% 45% at 50% 100%,
-      rgba(246, 213, 255, 0.55) 0%,
-      transparent 75%
-    ),
-    linear-gradient(
-      180deg,
-      #fbf5ff 0%,
-      #ffffff 48%,
-      #fcf3ff 100%
-    )
-  `,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  padding: isMobile ? '2rem 1.25rem' : '2rem 3rem',
-  position: 'relative',
-},
-
+    leftHeroSection: {
+      flex: 1,
+      width: '100%',
+      background: `
+        radial-gradient(
+          ellipse 90% 40% at 50% 0%,
+          rgba(238, 190, 255, 0.48) 0%,
+          transparent 75%
+        ),
+        radial-gradient(
+          ellipse 90% 45% at 50% 100%,
+          rgba(246, 213, 255, 0.55) 0%,
+          transparent 75%
+        ),
+        linear-gradient(
+          180deg,
+          #fbf5ff 0%,
+          #ffffff 48%,
+          #fcf3ff 100%
+        )
+      `,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      padding: isMobile ? '2rem 1.25rem' : '2rem 3rem',
+      position: 'relative',
+      overflow: 'hidden',
+    },
     homeBtn: {
       display: 'flex',
       alignItems: 'center',
@@ -144,12 +152,29 @@ leftHeroSection: {
       textAlign: 'center',
       marginTop: isMobile ? '1rem' : 'auto',
       marginBottom: isMobile ? '1rem' : 'auto',
+      position: 'relative',
     },
-    heroImg: {
-      width: '110%',
+     heroImgFirst: {
+      width: '150%',
+      maxWidth: 'none',
       height: 'auto',
       objectFit: 'contain',
-      marginTop: '1.5rem',
+      marginLeft: '25rem',
+      zIndex: 1,
+      position: 'relative',
+      boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+      borderRadius: '8px',
+    },
+    // Second demo image style
+   heroImgSecond: {
+      width: '130%',
+      maxWidth: 'none',
+      height: 'auto',
+      objectFit: 'contain',
+      marginTop: '-9rem', // Adjusted higher up
+      zIndex: 1,
+      position: 'relative',
+      borderRadius: '8px',
     },
     badge: {
       display: 'inline-flex',
@@ -182,36 +207,31 @@ leftHeroSection: {
       margin: '0.75rem 0 1rem 0',
       alignItems: 'center',
     },
-   
-rightFormSection: {
-  flex: 1,
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: isMobile ? '2.5rem 1.25rem' : '3rem 2rem',
-
-  backgroundColor: '#ffffff',
-
-  backgroundImage: `
-    repeating-conic-gradient(
-      from -8deg at 50% 48%,
-      rgba(148, 163, 184, 0.055) 0deg 7deg,
-      transparent 7deg 14deg
-    ),
-    radial-gradient(
-      ellipse at center,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0.45) 75%,
-      #ffffff 100%
-    )
-  `,
-
-  backgroundPosition: 'center',
-  backgroundSize: 'cover',
-  backgroundRepeat: 'no-repeat',
-},
-
+    rightFormSection: {
+      flex: 1,
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: isMobile ? '2.5rem 1.25rem' : '3rem 2rem',
+      backgroundColor: '#ffffff',
+      backgroundImage: `
+        repeating-conic-gradient(
+          from -8deg at 50% 48%,
+          rgba(148, 163, 184, 0.055) 0deg 7deg,
+          transparent 7deg 14deg
+        ),
+        radial-gradient(
+          ellipse at center,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.45) 75%,
+          #ffffff 100%
+        )
+      `,
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+    },
     formWrapper: {
       width: '100%',
       maxWidth: '440px',
@@ -525,7 +545,7 @@ rightFormSection: {
                 <img
                   src="desktop1.jpeg"
                   alt="SmartEdufy Dashboard Preview"
-                  style={styles.heroImg}
+                  style={styles.heroImgFirst}
                 />
               </>
             ) : (
@@ -536,7 +556,7 @@ rightFormSection: {
                 <img
                   src="desktop2.png"
                   alt="SmartEdufy Nationwide Campuses Map"
-                  style={styles.heroImg}
+                  style={styles.heroImgSecond}
                 />
               </>
             )}
